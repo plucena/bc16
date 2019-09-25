@@ -5,6 +5,7 @@
 package org.example;
 
 import java.util.Objects;
+import org.hyperledger.fabric.contract.annotation.DataType;
 import org.hyperledger.fabric.contract.annotation.Property;
 import org.json.JSONObject;
 
@@ -15,8 +16,7 @@ public class Image {
     private String storageDeviceImageID;
     private String storageDeviceID;
     private String s3ImageURL;
-    private String s3ImageSHASum;   
-
+    private String s3ImageSHASum;
 
     public Image() {
     }
@@ -88,7 +88,9 @@ public class Image {
             return false;
         }
         Image image = (Image) o;
-        return Objects.equals(storageDeviceImageID, image.storageDeviceImageID) && Objects.equals(storageDeviceID, image.storageDeviceID) && Objects.equals(s3ImageURL, image.s3ImageURL) && Objects.equals(s3ImageSHASum, image.s3ImageSHASum);
+        return Objects.equals(storageDeviceImageID, image.storageDeviceImageID)
+                && Objects.equals(storageDeviceID, image.storageDeviceID)
+                && Objects.equals(s3ImageURL, image.s3ImageURL) && Objects.equals(s3ImageSHASum, image.s3ImageSHASum);
     }
 
     @Override
@@ -98,18 +100,24 @@ public class Image {
 
     @Override
     public String toString() {
-        return "{" +
-            " storageDeviceImageID='" + getStorageDeviceImageID() + "'" +
-            ", storageDeviceID='" + getStorageDeviceID() + "'" +
-            ", s3ImageURL='" + getS3ImageURL() + "'" +
-            ", s3ImageSHASum='" + getS3ImageSHASum() + "'" +
-            "}";
+        return "{" + " storageDeviceImageID='" + getStorageDeviceImageID() + "'" + ", storageDeviceID='"
+                + getStorageDeviceID() + "'" + ", s3ImageURL='" + getS3ImageURL() + "'" + ", s3ImageSHASum='"
+                + getS3ImageSHASum() + "'" + "}";
     }
-
 
     public String toJSONString() {
         return new JSONObject(this).toString();
     }
 
-    
+    public static Image fromJSONString(String json) {
+        String parameterOne = new JSONObject(json).getString("storageDeviceImageID");
+        String parameterTwo = new JSONObject(json).getString("storageDeviceID");
+        String parameterThree = new JSONObject(json).getString("s3ImageURL");
+        String parameterFour = new JSONObject(json).getString("s3ImageSHASum");
+
+        Image image = new Image(parameterOne, parameterTwo, parameterThree, parameterFour);
+
+        return image;
+    }
+
 }

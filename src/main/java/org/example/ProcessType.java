@@ -5,18 +5,18 @@
 package org.example;
 
 import java.util.Objects;
+import org.hyperledger.fabric.contract.annotation.DataType;
 import org.hyperledger.fabric.contract.annotation.Property;
 import org.json.JSONObject;
 
 @DataType()
 public class ProcessType {
-    
-    //Properties of the asset
+
+    // Properties of the asset
     @Property()
     private String processTypeID;
     private String companyID;
     private String languageKeyLabel;
-
 
     public ProcessType() {
     }
@@ -74,7 +74,9 @@ public class ProcessType {
             return false;
         }
         ProcessType processType = (ProcessType) o;
-        return Objects.equals(processTypeID, processType.processTypeID) && Objects.equals(companyID, processType.companyID) && Objects.equals(languageKeyLabel, processType.languageKeyLabel);
+        return Objects.equals(processTypeID, processType.processTypeID)
+                && Objects.equals(companyID, processType.companyID)
+                && Objects.equals(languageKeyLabel, processType.languageKeyLabel);
     }
 
     @Override
@@ -84,24 +86,18 @@ public class ProcessType {
 
     @Override
     public String toString() {
-        return "{" +
-            " processTypeID='" + getProcessTypeID() + "'" +
-            ", companyID='" + getCompanyID() + "'" +
-            ", languageKeyLabel='" + getLanguageKeyLabel() + "'" +
-            "}";
-    }
-    
-    public static Process fromJSONStringProcessTypeID(String json) {
-        String value = new JSONObject(json).getString("proccesTypeID");
-        Process asset = new ProcessType();
-        asset.setProcessTypeID(value);
-        return asset;
+        return "{" + " processTypeID='" + getProcessTypeID() + "'" + ", companyID='" + getCompanyID() + "'"
+                + ", languageKeyLabel='" + getLanguageKeyLabel() + "'" + "}";
     }
 
-    public static Process fromJSONStringProcessLabel(String json) {
-        String value = new JSONObject(json).getString("proccesTypeID");
-        Soybeans asset = new Soybeans();
-        asset.setProcessTypeID(value);
-        return asset;
+    public static ProcessType fromJSONString(String json) {
+        String parameterOne = new JSONObject(json).getString("processTypeID");
+        String parameterTwo = new JSONObject(json).getString("companyID");
+        String parameterThree = new JSONObject(json).getString("languageKeyLabel");
+
+        ProcessType person = new ProcessType(parameterOne, parameterTwo, parameterThree);
+
+        return person;
     }
+
 }

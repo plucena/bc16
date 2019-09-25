@@ -4,9 +4,11 @@
 
 package org.example;
 
+import java.util.Date;
 import java.util.Objects;
+import org.hyperledger.fabric.contract.annotation.DataType;
 import org.hyperledger.fabric.contract.annotation.Property;
-
+import org.json.JSONObject;
 
 @DataType()
 public class Season {
@@ -15,19 +17,21 @@ public class Season {
     private String seasonID;
     private String companyID;
     private String personInChargeID;
-    private DateTime sentDateTime;
-    private DateTime cordDateTime;
-
+    private Date sentDateTime;
+    private Date cordDateTime;
+    private Soybeans soybean;
 
     public Season() {
     }
 
-    public Season(String seasonID, String companyID, String personInChargeID, DateTime sentDateTime, DateTime cordDateTime) {
+    public Season(String seasonID, String companyID, String personInChargeID, Date sentDateTime, Date cordDateTime,
+            Soybeans soybean) {
         this.seasonID = seasonID;
         this.companyID = companyID;
         this.personInChargeID = personInChargeID;
         this.sentDateTime = sentDateTime;
         this.cordDateTime = cordDateTime;
+        this.soybean = soybean;
     }
 
     public String getSeasonID() {
@@ -70,6 +74,14 @@ public class Season {
         this.cordDateTime = cordDateTime;
     }
 
+    public Soybeans getSoybean() {
+        return this.soybean;
+    }
+
+    public void setSoybean(Soybeans soybean) {
+        this.soybean = soybean;
+    }
+
     public Season seasonID(String seasonID) {
         this.seasonID = seasonID;
         return this;
@@ -95,6 +107,11 @@ public class Season {
         return this;
     }
 
+    public Season soybean(Soybeans soybean) {
+        this.soybean = soybean;
+        return this;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == this)
@@ -103,33 +120,39 @@ public class Season {
             return false;
         }
         Season season = (Season) o;
-        return Objects.equals(seasonID, season.seasonID) && Objects.equals(companyID, season.companyID) && Objects.equals(personInChargeID, season.personInChargeID) && Objects.equals(sentDateTime, season.sentDateTime) && Objects.equals(cordDateTime, season.cordDateTime);
+        return Objects.equals(seasonID, season.seasonID) && Objects.equals(companyID, season.companyID)
+                && Objects.equals(personInChargeID, season.personInChargeID)
+                && Objects.equals(sentDateTime, season.sentDateTime)
+                && Objects.equals(cordDateTime, season.cordDateTime) && Objects.equals(soybean, season.soybean);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(seasonID, companyID, personInChargeID, sentDateTime, cordDateTime);
+        return Objects.hash(seasonID, companyID, personInChargeID, sentDateTime, cordDateTime, soybean);
     }
 
     @Override
     public String toString() {
-        return "{" +
-            " seasonID='" + getSeasonID() + "'" +
-            ", companyID='" + getCompanyID() + "'" +
-            ", personInChargeID='" + getPersonInChargeID() + "'" +
-            ", sentDateTime='" + getSentDateTime() + "'" +
-            ", cordDateTime='" + getCordDateTime() + "'" +
-            "}";
+        return "{" + " seasonID='" + getSeasonID() + "'" + ", companyID='" + getCompanyID() + "'"
+                + ", personInChargeID='" + getPersonInChargeID() + "'" + ", sentDateTime='" + getSentDateTime() + "'"
+                + ", cordDateTime='" + getCordDateTime() + "'" + ", soybean='" + getSoybean() + "'" + "}";
     }
 
     public String toJSONString() {
         return new JSONObject(this).toString();
     }
 
-    public static Soybeans fromJSONString(String json) {
-        String value = new JSONObject(json).getString("value");
-        Soybeans asset = new Soybeans();
-        asset.setValue(value);
-        return asset;
+    public static Season fromJSONString(String json) {
+        String parameterOne = new JSONObject(json).getString("seasonID");
+        String parameterTwo = new JSONObject(json).getString("companyID");
+        String parameterThree = new JSONObject(json).getString("personInChargeID");
+        String parameterFour = new JSONObject(json).getString("sentDateTime");
+        String parameterFive = new JSONObject(json).getString("cordDateTime");
+        String parameterSix = new JSONObject(json).getString("soybean");
+
+        Season season = new Company(parameterOne, parameterTwo, parameterThree, parameterFour, parameterFive,
+                parameterSix);
+
+        return season;
     }
 }

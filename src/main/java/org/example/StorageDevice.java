@@ -5,7 +5,9 @@
 package org.example;
 
 import java.util.Objects;
+import org.hyperledger.fabric.contract.annotation.DataType;
 import org.hyperledger.fabric.contract.annotation.Property;
+import org.json.JSONObject;
 
 
 @DataType()
@@ -20,7 +22,33 @@ public class StorageDevice {
     private String controlKey;
     private String controlValue;
     private String seal;
+    private Image[] images;
 
+
+    public StorageDevice(String storageDeviceID, String storageDeviceTypeID, String latitude, String longitude, String label, String controlKey, String controlValue, String seal, Image[] images) {
+        this.storageDeviceID = storageDeviceID;
+        this.storageDeviceTypeID = storageDeviceTypeID;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.label = label;
+        this.controlKey = controlKey;
+        this.controlValue = controlValue;
+        this.seal = seal;
+        this.images = images;
+    }
+
+    public Image[] getImages() {
+        return this.images;
+    }
+
+    public void setImages(Image[] images) {
+        this.images = images;
+    }
+
+    public StorageDevice images(Image[] images) {
+        this.images = images;
+        return this;
+    }
 
     public StorageDevice() {
     }

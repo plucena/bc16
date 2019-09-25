@@ -6,6 +6,7 @@ package org.example;
 
 import java.util.Date;
 import java.util.Objects;
+import org.hyperledger.fabric.contract.annotation.DataType;
 import org.hyperledger.fabric.contract.annotation.Property;
 import org.json.JSONObject;
 
@@ -19,14 +20,13 @@ public class PersonInCharge {
     private String name;
     private String email;
     private String publicKey;
-    private DateTime createdDateTime;
-
+    private Date createdDateTime;
 
     public PersonInCharge() {
     }
 
-    public PersonInCharge(String personInChargeID, String companyID, String name, String email, String publicKey, 
-            DateTime createdDateTime) {
+    public PersonInCharge(String personInChargeID, String companyID, String name, String email, String publicKey,
+            Date createdDateTime) {
         this.personInChargeID = personInChargeID;
         this.companyID = companyID;
         this.name = name;
@@ -121,7 +121,10 @@ public class PersonInCharge {
             return false;
         }
         PersonInCharge personInCharge = (PersonInCharge) o;
-        return Objects.equals(personInChargeID, personInCharge.personInChargeID) && Objects.equals(companyID, personInCharge.companyID) && Objects.equals(name, personInCharge.name) && Objects.equals(email, personInCharge.email) && Objects.equals(publicKey, personInCharge.publicKey) && Objects.equals(createdDateTime, personInCharge.createdDateTime);
+        return Objects.equals(personInChargeID, personInCharge.personInChargeID)
+                && Objects.equals(companyID, personInCharge.companyID) && Objects.equals(name, personInCharge.name)
+                && Objects.equals(email, personInCharge.email) && Objects.equals(publicKey, personInCharge.publicKey)
+                && Objects.equals(createdDateTime, personInCharge.createdDateTime);
     }
 
     @Override
@@ -131,21 +134,22 @@ public class PersonInCharge {
 
     @Override
     public String toString() {
-        return "{" +
-            " personInChargeID='" + getPersonInChargeID() + "'" +
-            ", companyID='" + getCompanyID() + "'" +
-            ", name='" + getName() + "'" +
-            ", email='" + getEmail() + "'" +
-            ", publicKey='" + getPublicKey() + "'" +
-            ", createdDateTime='" + getCreatedDateTime() + "'" +
-            "}";
+        return "{" + " personInChargeID='" + getPersonInChargeID() + "'" + ", companyID='" + getCompanyID() + "'"
+                + ", name='" + getName() + "'" + ", email='" + getEmail() + "'" + ", publicKey='" + getPublicKey() + "'"
+                + ", createdDateTime='" + getCreatedDateTime() + "'" + "}";
     }
 
+    public static PersonInCharge fromJSONString(String json) {
+        String parameterOne = new JSONObject(json).getString("personInChargeID");
+        String parameterTwo = new JSONObject(json).getString("companyID");
+        String parameterThree = new JSONObject(json).getString("name");
+        String parameterFour = new JSONObject(json).getString("email");
+        String parameterFive = new JSONObject(json).getString("publicKey");
+        Date parameterSix = new JSONObject(json).getString("createdDateTime");
 
-    public static Soybeans fromJSONString(String json) {
-        String value = new JSONObject(json).getString("value");
-        Soybeans asset = new Soybeans();
-        asset.setValue(value);
-        return asset;
+        PersonInCharge person = new PersonInCharge(parameterOne, parameterTwo, parameterThree, parameterFour,
+                parameterFive, parameterSix);
+
+        return person;
     }
 }
