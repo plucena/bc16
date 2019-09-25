@@ -19,7 +19,7 @@ public class Company {
     private String name;
     private String phone;
     private String email;
-    private Process[] processes;
+    private agrichainProcess[] processes;
     private Record[] records;
     private PersonInCharge[] personsInCharge;
     private StorageDeviceType[] storageDeviceTypes;
