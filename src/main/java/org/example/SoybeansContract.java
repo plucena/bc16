@@ -35,13 +35,14 @@ public class SoybeansContract implements ContractInterface {
     }
 
     @Transaction()
-    public void createSoybeans(Context ctx, String soybeansId, String value) {
+    public void createSoybeans(Context ctx, String soybeansId, String farm, String harvest_date) {
         boolean exists = soybeansExists(ctx,soybeansId);
         if (exists) {
             throw new RuntimeException("The asset "+soybeansId+" already exists");
         }
         Soybeans asset = new Soybeans();
-        asset.setValue(value);
+        asset.setFarm(farm);
+        asset.setHarvest_date(harvest_date);
         ctx.getStub().putState(soybeansId, asset.toJSONString().getBytes(UTF_8));
     }
 
@@ -57,13 +58,15 @@ public class SoybeansContract implements ContractInterface {
     }
 
     @Transaction()
-    public void updateSoybeans(Context ctx, String soybeansId, String newValue) {
+    public void updateSoybeans(Context ctx, String soybeansId, String farm, String harvest_date) {
         boolean exists = soybeansExists(ctx,soybeansId);
         if (!exists) {
             throw new RuntimeException("The asset "+soybeansId+" does not exist");
         }
         Soybeans asset = new Soybeans();
-        asset.setValue(newValue);
+        asset.setFarm(farm);
+        asset.setHarvest_date(harvest_date);
+     
 
         ctx.getStub().putState(soybeansId, asset.toJSONString().getBytes(UTF_8));
     }

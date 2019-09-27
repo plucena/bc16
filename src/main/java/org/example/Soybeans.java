@@ -8,21 +8,33 @@ import org.hyperledger.fabric.contract.annotation.DataType;
 import org.hyperledger.fabric.contract.annotation.Property;
 import org.json.JSONObject;
 
+
 @DataType()
 public class Soybeans {
 
     @Property()
-    private String value;
+    private String farm;
+
+    @Property()
+    private String harvest_date;
 
     public Soybeans(){
     }
 
-    public String getValue() {
-        return value;
+    public String getHarvest_date() {
+        return harvest_date;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setHarvest_date(String harvest_date) {
+        this.harvest_date = harvest_date;
+    }
+
+    public String getFarm() {
+        return farm;
+    }
+
+    public void setFarm(String farm) {
+        this.farm = farm;
     }
 
     public String toJSONString() {
@@ -30,9 +42,11 @@ public class Soybeans {
     }
 
     public static Soybeans fromJSONString(String json) {
-        String value = new JSONObject(json).getString("value");
+        String farm = new JSONObject(json).getString("farm");
+        String harvest_date = new JSONObject(json).getString("harvest_date");
         Soybeans asset = new Soybeans();
-        asset.setValue(value);
+        asset.setFarm(farm);
+        asset.setHarvest_date(harvest_date);
         return asset;
     }
 }
