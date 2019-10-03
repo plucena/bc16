@@ -81,7 +81,7 @@ public final class SoybeansContractTest {
 
             String json = "{\"value\":\"TheSoybeans\"}";
 
-            contract.createSoybeans(ctx, "10001", "TheSoybeans");
+            contract.createSoybeans(ctx, "10001", "TheSoybeans", "lalala");
 
             verify(stub).putState("10001", json.getBytes(UTF_8));
         }
@@ -96,7 +96,7 @@ public final class SoybeansContractTest {
             when(stub.getState("10002")).thenReturn(new byte[] { 42 });
 
             Exception thrown = assertThrows(RuntimeException.class, () -> {
-                contract.createSoybeans(ctx, "10002", "TheSoybeans");
+                contract.createSoybeans(ctx, "10002", "TheSoybeans", "lalala");
             });
 
             assertEquals(thrown.getMessage(), "The asset 10002 already exists");
@@ -113,13 +113,13 @@ public final class SoybeansContractTest {
         when(ctx.getStub()).thenReturn(stub);
 
         Soybeans asset = new  Soybeans();
-        asset.setValue("Valuable");
+        asset.setFarm("Valuable");
 
         String json = asset.toJSONString();
         when(stub.getState("10001")).thenReturn(json.getBytes(StandardCharsets.UTF_8));
 
         Soybeans returnedAsset = contract.readSoybeans(ctx, "10001");
-        assertEquals(returnedAsset.getValue(), asset.getValue());
+        assertEquals(returnedAsset.getFarm(), asset.getFarm());
     }
 
     @Nested
@@ -132,7 +132,7 @@ public final class SoybeansContractTest {
             when(ctx.getStub()).thenReturn(stub);
             when(stub.getState("10001")).thenReturn(new byte[] { 42 });
 
-            contract.updateSoybeans(ctx, "10001", "updates");
+            contract.updateSoybeans(ctx, "10001", "updates", "lalaala");
 
             String json = "{\"value\":\"updates\"}";
             verify(stub).putState("10001", json.getBytes(UTF_8));
@@ -148,7 +148,7 @@ public final class SoybeansContractTest {
             when(stub.getState("10001")).thenReturn(null);
 
             Exception thrown = assertThrows(RuntimeException.class, () -> {
-                contract.updateSoybeans(ctx, "10001", "TheSoybeans");
+                contract.updateSoybeans(ctx, "10001", "TheSoybeans", "lalalala");
             });
 
             assertEquals(thrown.getMessage(), "The asset 10001 does not exist");
